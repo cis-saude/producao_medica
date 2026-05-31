@@ -111,3 +111,8 @@ temp/
 
 # Manus version file (auto-generated, not part of source)
 client/public/__manus__/version.json
+
+# Local debug/diagnostics scripts — não comitar
+check-users.mjs
+debug-auth.mjs
+seed-admin.mjs

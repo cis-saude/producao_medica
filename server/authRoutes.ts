@@ -80,16 +80,20 @@ export function registerAuthRoutes(app: express.Express) {
   app.post("/api/app/auth/login", async (req, res) => {
     try {
       const { email, senha } = req.body;
+      console.log("[Auth][Login] tentativa email:", JSON.stringify(email), "senha-len:", senha?.length);
       if (!email || !senha) {
+        console.log("[Auth][Login] faltou email ou senha");
         res.status(400).json({ error: "E-mail e senha são obrigatórios" });
         return;
       }
       const user = await getAppUserByEmail(email);
+      console.log("[Auth][Login] usuário encontrado?", !!user, user ? `id=${user.id} ativo=${user.ativo}` : "");
       if (!user || !user.ativo) {
         res.status(401).json({ error: "E-mail ou senha inválidos" });
         return;
       }
       const senhaOk = await verificarSenha(senha, user.senhaHash);
+      console.log("[Auth][Login] senha bate?", senhaOk);
       if (!senhaOk) {
         res.status(401).json({ error: "E-mail ou senha inválidos" });
         return;
